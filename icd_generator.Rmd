@@ -95,10 +95,14 @@ search_all_cols = function(search_term) {
 
 # search for string of characters anywhere
 search_all_cols("516")
+icd::icd9cm_hierarchy[grep(icd9cm_hierarchy$code, pattern = "516"), c("code", "short_desc")]
 
 # search for L followed by 1 or more digits
 search_all_cols("L\\d+")
-
+head(
+  icd::icd10cm2016[grep(icd10cm2016$code, pattern = "L\\d+", perl = TRUE), c("code", "short_desc")]
+)
+  
 search_for_code_pattern = function(v = NULL, search_term, ct = NULL) {
   dt <- icd_data
   
@@ -127,15 +131,26 @@ search_for_code_exact = function(v = NULL, search_term, ct = NULL) {
 
 # example with all positional arguments
 search_for_code_pattern(10, "^G318.*", "dx")
+icd::icd10cm2016[grep(icd10cm2016$code, pattern = "^G318", perl = TRUE), c("code", "short_desc")]
+g318 <- icd::children("G318")
+icd::explain(g318)
+icd::explain_table(g318)
 
 # just code to search for
 search_for_code_pattern(search_term = 334)
+head(
+  icd::icd9cm_hierarchy[grep(icd9cm_hierarchy$code, pattern = "334"), c("code", "short_desc")]
+)
 
 # code and type (looking at both 9 & 10)
 search_for_code_pattern(search_term = 334, ct = "pc")
+# icd doesn't have ICD-9 procedure codes yet
+pcs <- icd::icd10_pc[["2018"]]
+pcs[grep(pcs$code, pattern = "334"), ]
 
 # find exact matches
 search_for_code_exact(search_term = "0010")
+icd::explain("0010")
 
 
 ```
