@@ -39,6 +39,8 @@ library(tidyverse)
 library(iotools)
 library(data.table)
 library(stringi)
+# library(icd) # not sure CRAN version converts tibbles to data frames, next will
+devtools::install_github("jackwasey/icd")
 
 files <- tibble(
   file_desc = c("icd9_dx", "icd9_pc", "icd10_dx", "icd10_pc"),
